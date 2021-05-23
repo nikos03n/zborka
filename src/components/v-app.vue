@@ -140,3 +140,52 @@
 
   </v-app>
 </template>
+
+<script>
+export default {
+  name: 'LayoutsDemosBaselineFlipped',
+
+  props: {
+    source: String
+  },
+  data: () => ({
+    drawer: null
+  }),
+  computed: {
+    error () {
+      return this.$store.getters.error
+    },
+    isUserLoggedIn () {
+      return this.$store.getters.isUserLoggedIn
+    },
+    links () {
+      if (this.isUserLoggedIn) {
+        return [
+          { title: 'New Ad', icon: 'note_add', url: '/NewAd' },
+          { title: 'My ads', icon: 'list', url: '/My ads' }
+        ]
+      }
+
+      return [
+        { title: 'Login', icon: 'lock', url: '/login' },
+        { title: 'Registration', icon: 'face', url: '/registration' }
+      ]
+    }
+  },
+  methods: {
+    closeError () {
+      this.$store.dispatch('clearError')
+    },
+    onLogout () {
+      this.$store.dispatch('logoutUser')
+      this.$router.push('/')
+    }
+  }
+}
+</script>
+
+<style scoped>
+.pointer1 {
+  background-color: #00bcd4 !important;
+}
+</style>

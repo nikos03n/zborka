@@ -1,12 +1,19 @@
 <template>
-  <v-app>
-    <router-view />
-  </v-app>
+  <body>
+    <v-app>
+      <router-view />
+    </v-app>
+  </body>
 </template>
+
 <script>
+import vApp from '@/components/v-app.vue'
+
 export default {
   name: 'app',
-  components: {}
+  components: {
+    vApp
+  }
 }
 </script>
 

@@ -1,28 +1,44 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 <template>
-  <div>
-    <!-- Pass the HTML Serializer to your rich text component. -->
-    <prismic-rich-text
-      :field="document.data.description"
-      :htmlSerializer="htmlSerializer"
-    />
-  </div>
+  <v-dialog v-model="dialog" max-width="600px">
+    <template v-slot:activator="{ on }">
+      <v-btn v-on="on" color="primary" class="mb-3">Add new user</v-btn>
+    </template>
+    <v-card>
+      <v-card-title>
+        <h3 class="primary--text">Add a New User</h3>
+      </v-card-title>
+      <v-card-text>
+        <v-form class="px-3">
+          <v-text-field label="Username" v-model="model.username" prepend-icon="account_box"></v-text-field>
+          <v-text-field label="Firstname" v-model="model.firstname" prepend-icon="person"></v-text-field>
+          <v-text-field label="Lastname" v-model="model.lastname" prepend-icon="person"></v-text-field>
+          <v-text-field :type="'password'" label="Password" v-model="model.password" prepend-icon="edit"></v-text-field>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn class="primary mx-0 mt-3" @click="submit" >
+              Add User
+              <v-icon right>done</v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-form>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-  async asyncData ({ $prismic, params, error }) {
-    const document = await $prismic.api.getSingle('homepage')
-    return { document }
+  data () {
+    return {
+      dialog: false,
+      model: {}
+    }
   },
   methods: {
-    htmlSerializer (type, element, content, children) {
-      // If element is a list item,
-      if (type === 'list-item') {
-        // return some customized HTML.
-        return `<li class="example-class">${children.join('')}</li>`
-      }
-      /// Otherwise, return null.
-      return null
+    submit () {
+      this.dialog = false
+      this.$emit('userInfo', this.model)
     }
   }
 }
